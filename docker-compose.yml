@@ -17,10 +17,23 @@ services:
         max-size: "100k"
         max-file: "1"
 
-  cron:  
-    build:
-      context: ./docker
-      dockerfile: Dockerfile
+  monitor:
+    image: scalable-nest-demo:latest
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      - CONTAINER_ROLE=monitor
+      - REDIS_HOST=redis
+    logging:
+      driver: json-file
+      options:
+        max-size: "100k"
+        max-file: "1"
+
+  cron:
     image: scalable-nest-demo:latest
     deploy:
       mode: global
