@@ -16,24 +16,12 @@ services:
       options:
         max-size: "100k"
         max-file: "1"
-  api:
-    image: role-app:latest
-    deploy:
-      mode: replicated
-      replicas: 2
-      restart_policy:
-        condition: on-failure
-    environment:
-      - CONTAINER_ROLE=api
-      - REDIS_HOST=redis
-    logging:
-      driver: json-file
-      options:
-        max-size: "100k"
-        max-file: "1"
 
-  cron:
-    image: role-app:latest
+  cron:  
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    image: scalable-nest-demo:latest
     deploy:
       mode: global
       restart_policy:
@@ -47,15 +35,15 @@ services:
         max-size: "100k"
         max-file: "1"
 
-  workers:
-    image: role-app:latest
+  worker:
+    image: scalable-nest-demo:latest
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 1
       restart_policy:
         condition: on-failure
     environment:
-      - CONTAINER_ROLE=workers
+      - CONTAINER_ROLE=worker
       - REDIS_HOST=redis
     logging:
       driver: json-file
