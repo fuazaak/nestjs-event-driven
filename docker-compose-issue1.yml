@@ -1,4 +1,4 @@
-# default demo stack: steady workflow
+# issue1 demo stack: traffic increases, but workers are still unbalanced
 version: '3.8'
 
 services:
@@ -18,30 +18,14 @@ services:
         max-size: "100k"
         max-file: "1"
 
-  monitor:
-    image: scalable-nest-demo:latest
-    deploy:
-      mode: replicated
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-    environment:
-      - CONTAINER_ROLE=monitor
-      - REDIS_HOST=redis
-    logging:
-      driver: json-file
-      options:
-        max-size: "100k"
-        max-file: "1"
-
   cron:
-    image: scalable-nest-demo:latest
+    image: conf42-demo:latest
     deploy:
       mode: global
       restart_policy:
         condition: on-failure
     environment:
-      - CONTAINER_ROLE=cron
+      - CONTAINER_ROLE=cron_issue1
       - REDIS_HOST=redis
     volumes:
       - .:/app
@@ -52,7 +36,7 @@ services:
         max-file: "1"
 
   worker:
-    image: scalable-nest-demo:latest
+    image: conf42-demo:latest
     deploy:
       mode: replicated
       replicas: 1
