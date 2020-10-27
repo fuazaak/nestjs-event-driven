@@ -42,6 +42,8 @@ services:
     environment:
       - CONTAINER_ROLE=cron
       - REDIS_HOST=redis
+    volumes:
+      - .:/app
     logging:
       driver: json-file
       options:
@@ -58,6 +60,8 @@ services:
     environment:
       - CONTAINER_ROLE=worker
       - REDIS_HOST=redis
+    volumes:
+      - .:/app
     logging:
       driver: json-file
       options:
