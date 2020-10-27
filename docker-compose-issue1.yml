@@ -19,7 +19,7 @@ services:
         max-file: "1"
 
   cron:
-    image: conf42-demo:latest
+    image: scalable-nest-demo:latest
     deploy:
       mode: global
       restart_policy:
@@ -36,7 +36,7 @@ services:
         max-file: "1"
 
   worker:
-    image: conf42-demo:latest
+    image: scalable-nest-demo:latest
     deploy:
       mode: replicated
       replicas: 1
